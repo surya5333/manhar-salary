@@ -36,13 +36,27 @@ export function calculateLeaveAdjustment(
   leavesTaken,
   allowedLeaves
 ) {
+  // Penalty Rule
+  if (leavesTaken >= 6) {
+    return {
+      bonus: 0,
+      leaveDeduction: round(
+        leavesTaken * dailySalary
+      ),
+      extraLeaves: leavesTaken,
+      remainingLeaves: 0,
+    };
+  }
+
   // Bonus
   if (leavesTaken < allowedLeaves) {
     const remainingLeaves =
       allowedLeaves - leavesTaken;
 
     return {
-      bonus: round(remainingLeaves * dailySalary),
+      bonus: round(
+        remainingLeaves * dailySalary
+      ),
       leaveDeduction: 0,
       extraLeaves: 0,
       remainingLeaves,
@@ -59,22 +73,7 @@ export function calculateLeaveAdjustment(
     };
   }
 
-  // Penalty Rule
-  // If employee takes 6 or more leaves,
-  // deduct ALL leave days.
-  if (leavesTaken >= 6) {
-    return {
-      bonus: 0,
-      leaveDeduction: round(
-        leavesTaken * dailySalary
-      ),
-      extraLeaves: leavesTaken,
-      remainingLeaves: 0,
-    };
-  }
-
   // Normal deduction
-  // Deduct only extra leaves
   const extraLeaves =
     leavesTaken - allowedLeaves;
 
@@ -131,8 +130,24 @@ export function calculatePayroll(
     settings.allowedLeaves
   );
 
+  // Casual Leave Rule
+  const casualLeaves =
+    employee.leavesTaken >= 6
+      ? 0
+      : settings.allowedLeaves;
+
+  // Casual Leave Pay Rule
+  const casualLeavePay =
+    employee.leavesTaken >= 6
+      ? 0
+      : round(
+          casualLeaves *
+            dailySalary
+        );
+
   const grossSalary =
     employee.monthlySalary +
+    casualLeavePay +
     weeklyOffPay +
     bonus +
     employee.commission;
@@ -142,11 +157,10 @@ export function calculatePayroll(
     teaCost +
     lunchBoxCost;
 
-  // Only Leave Deduction is a deduction
+  // Only Leave Deduction
   const deductions =
     leaveDeduction;
 
-  // Final Salary
   const finalSalary =
     grossSalary +
     additions -
@@ -159,7 +173,9 @@ export function calculatePayroll(
 
     totalAttendance,
 
-    allowedLeaves: settings.allowedLeaves,
+    allowedLeaves: casualLeaves,
+
+    casualLeavePay,
 
     weeklyOffPay,
 

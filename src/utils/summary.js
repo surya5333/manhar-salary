@@ -7,6 +7,11 @@ export function calculateSummary(processedEmployees) {
       0
     ),
 
+    casualLeavePay: processedEmployees.reduce(
+      (sum, emp) => sum + (emp.casualLeavePay || 0),
+      0
+    ),
+
     bonus: processedEmployees.reduce(
       (sum, emp) => sum + (emp.bonus || 0),
       0

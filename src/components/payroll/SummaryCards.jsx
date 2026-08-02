@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import {
   Users,
   Wallet,
+  CalendarCheck,
   Gift,
   BadgeIndianRupee,
   Coffee,
@@ -22,6 +23,11 @@ export default function SummaryCards({ summary }) {
       title: "Gross Salary",
       value: formatCurrency(summary.grossSalary),
       icon: Wallet,
+    },
+    {
+      title: "Casual Leave Pay",
+      value: formatCurrency(summary.casualLeavePay),
+      icon: CalendarCheck,
     },
     {
       title: "Bonus",
@@ -51,7 +57,7 @@ export default function SummaryCards({ summary }) {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8 gap-4">
       {cards.map((card) => {
         const Icon = card.icon;
 

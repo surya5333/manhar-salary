@@ -33,11 +33,14 @@ export function exportPayroll(employees, settings) {
     "Total Attendance": emp.totalAttendance,
 
     "Casual Leave": emp.allowedLeaves,
+    "Casual Leave Pay": emp.casualLeavePay,
+
     "Leaves Taken": emp.leavesTaken,
     "Remaining Leaves": emp.remainingLeaves,
     "Extra Leaves": emp.extraLeaves,
 
     Bonus: emp.bonus,
+
     "Weekly Off Pay": emp.weeklyOffPay,
 
     "Tea Amount": emp.teaCost,
@@ -68,14 +71,15 @@ export function exportPayroll(employees, settings) {
     { wch: 15 }, // Daily Salary
     { wch: 15 }, // Working Days
     { wch: 15 }, // Weekly Off
-    { wch: 18 }, // Total Attendance
+    { wch: 18 }, // Attendance
     { wch: 15 }, // Casual Leave
+    { wch: 18 }, // Casual Leave Pay
     { wch: 15 }, // Leaves Taken
     { wch: 18 }, // Remaining Leaves
     { wch: 15 }, // Extra Leaves
     { wch: 15 }, // Bonus
     { wch: 18 }, // Weekly Off Pay
-    { wch: 15 }, // Tea Amount
+    { wch: 15 }, // Tea
     { wch: 20 }, // Lunch Box Allowed
     { wch: 18 }, // Lunch Box Amount
     { wch: 18 }, // Total Additions

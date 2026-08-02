@@ -54,19 +54,9 @@ export default function EmployeeTable({
 
           <div className="relative">
 
-            <Search
-              size={18}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-            />
+            
 
-            <Input
-              placeholder="Search Employee..."
-              className="pl-10 w-64"
-              value={search}
-              onChange={(e) =>
-                setSearch(e.target.value)
-              }
-            />
+            
 
           </div>
 
@@ -103,6 +93,7 @@ export default function EmployeeTable({
               <TableHead>Weekly Off</TableHead>
               <TableHead>Attendance</TableHead>
               <TableHead>Casual Leave</TableHead>
+              <TableHead>Casual Leave Pay</TableHead>
               <TableHead>Leaves Taken</TableHead>
               <TableHead>Bonus</TableHead>
               <TableHead>Weekly Off Pay</TableHead>
@@ -126,7 +117,7 @@ export default function EmployeeTable({
               <TableRow>
 
                 <TableCell
-                  colSpan={17}
+                  colSpan={18}
                   className="text-center py-10"
                 >
                   No employee uploaded.
@@ -168,6 +159,10 @@ export default function EmployeeTable({
 
                   <TableCell>
                     {emp.allowedLeaves}
+                  </TableCell>
+
+                  <TableCell className="text-green-600 font-semibold">
+                    {formatCurrency(emp.casualLeavePay)}
                   </TableCell>
 
                   <TableCell>
