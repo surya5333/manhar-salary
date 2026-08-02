@@ -48,22 +48,19 @@ export function calculateLeaveAdjustment(
     };
   }
 
-  // Bonus
-  if (leavesTaken < allowedLeaves) {
-    const remainingLeaves =
-      allowedLeaves - leavesTaken;
-
+  // Bonus ONLY when no leave is taken
+  if (leavesTaken === 0) {
     return {
       bonus: round(
-        remainingLeaves * dailySalary
+        allowedLeaves * dailySalary
       ),
       leaveDeduction: 0,
       extraLeaves: 0,
-      remainingLeaves,
+      remainingLeaves: allowedLeaves,
     };
   }
 
-  // Equal
+  // Allowed leaves fully used
   if (leavesTaken === allowedLeaves) {
     return {
       bonus: 0,
@@ -73,7 +70,18 @@ export function calculateLeaveAdjustment(
     };
   }
 
-  // Normal deduction
+  // Leaves less than allowed (e.g. 1 leave)
+  if (leavesTaken < allowedLeaves) {
+    return {
+      bonus: 0,
+      leaveDeduction: 0,
+      extraLeaves: 0,
+      remainingLeaves:
+        allowedLeaves - leavesTaken,
+    };
+  }
+
+  // Normal deduction (3,4,5 leaves)
   const extraLeaves =
     leavesTaken - allowedLeaves;
 
@@ -95,14 +103,20 @@ export function calculatePayroll(
   const dailySalary =
     calculateDailySalary(employee.monthlySalary);
 
+  // Weekly Off Rule
+  const weeklyOff =
+    employee.leavesTaken >= 10
+      ? 0
+      : employee.weeklyOff;
+
   const totalAttendance =
     employee.workingDays +
-    employee.weeklyOff;
+    weeklyOff;
 
   const weeklyOffPay =
     calculateWeeklyOffPay(
       dailySalary,
-      employee.weeklyOff
+      weeklyOff
     );
 
   const teaCost =
@@ -131,20 +145,17 @@ export function calculatePayroll(
   );
 
   // Casual Leave Rule
-  const casualLeaves =
-    employee.leavesTaken >= 6
-      ? 0
-      : settings.allowedLeaves;
+  const casualLeaves = Math.max(
+    settings.allowedLeaves -
+      employee.leavesTaken,
+    0
+  );
 
-  // Casual Leave Pay Rule
+  // Casual Leave Pay
   const casualLeavePay =
-    employee.leavesTaken >= 6
-      ? 0
-      : round(
-          casualLeaves *
-            dailySalary
-        );
+    round(casualLeaves * dailySalary);
 
+  // Gross Salary
   const grossSalary =
     employee.monthlySalary +
     casualLeavePay +
@@ -152,15 +163,16 @@ export function calculatePayroll(
     bonus +
     employee.commission;
 
-  // Tea & Lunch Box are additions
+  // Additions
   const additions =
     teaCost +
     lunchBoxCost;
 
-  // Only Leave Deduction
+  // Deductions
   const deductions =
     leaveDeduction;
 
+  // Final Salary
   const finalSalary =
     grossSalary +
     additions -
@@ -170,6 +182,10 @@ export function calculatePayroll(
     ...employee,
 
     dailySalary,
+
+    workingDays: employee.workingDays,
+
+    weeklyOff,
 
     totalAttendance,
 
