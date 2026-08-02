@@ -13,21 +13,21 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import {
-  Download,
-  Search,
-} from "lucide-react";
+import { Download, Search } from "lucide-react";
 
 import { exportPayroll } from "@/utils/exportExcel";
 import { formatCurrency } from "@/utils/format";
 
-export default function EmployeeTable({ employees }) {
+export default function EmployeeTable({
+  employees,
+  settings,
+}) {
   const [search, setSearch] = useState("");
 
   const filteredEmployees = useMemo(() => {
-    return employees.filter((emp) => {
-      const keyword = search.toLowerCase();
+    const keyword = search.toLowerCase();
 
+    return employees.filter((emp) => {
       return (
         emp.name.toLowerCase().includes(keyword) ||
         emp.id.toLowerCase().includes(keyword)
@@ -63,13 +63,20 @@ export default function EmployeeTable({ employees }) {
               placeholder="Search Employee..."
               className="pl-10 w-64"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) =>
+                setSearch(e.target.value)
+              }
             />
 
           </div>
 
           <Button
-            onClick={() => exportPayroll(filteredEmployees)}
+            onClick={() =>
+              exportPayroll(
+                filteredEmployees,
+                settings
+              )
+            }
             disabled={!filteredEmployees.length}
           >
             <Download className="mr-2 h-4 w-4" />
@@ -89,33 +96,21 @@ export default function EmployeeTable({ employees }) {
             <TableRow>
 
               <TableHead>ID</TableHead>
-
               <TableHead>Name</TableHead>
-
               <TableHead>Monthly Salary</TableHead>
-
               <TableHead>Daily Salary</TableHead>
-
               <TableHead>Working Days</TableHead>
-
-              <TableHead>Extra Days</TableHead>
-
-              <TableHead>Total Attendance</TableHead>
-
-              <TableHead>Extra Pay</TableHead>
-
-              <TableHead>Tea Cost</TableHead>
-
-              <TableHead>Box Cost</TableHead>
-
-              <TableHead>Leave Deduction</TableHead>
-
+              <TableHead>Weekly Off</TableHead>
+              <TableHead>Attendance</TableHead>
+              <TableHead>Casual Leave</TableHead>
+              <TableHead>Leaves Taken</TableHead>
+              <TableHead>Bonus</TableHead>
+              <TableHead>Weekly Off Pay</TableHead>
+              <TableHead>Tea</TableHead>
+              <TableHead>Lunch Box</TableHead>
               <TableHead>Commission</TableHead>
-
+              <TableHead>Leave Deduction</TableHead>
               <TableHead>Gross Salary</TableHead>
-
-              <TableHead>Total Deductions</TableHead>
-
               <TableHead className="text-right">
                 Final Salary
               </TableHead>
@@ -131,8 +126,8 @@ export default function EmployeeTable({ employees }) {
               <TableRow>
 
                 <TableCell
-                  colSpan={15}
-                  className="text-center py-12"
+                  colSpan={17}
+                  className="text-center py-10"
                 >
                   No employee uploaded.
                 </TableCell>
@@ -145,9 +140,7 @@ export default function EmployeeTable({ employees }) {
 
                 <TableRow key={emp.id}>
 
-                  <TableCell>
-                    {emp.id}
-                  </TableCell>
+                  <TableCell>{emp.id}</TableCell>
 
                   <TableCell className="font-medium">
                     {emp.name}
@@ -166,39 +159,47 @@ export default function EmployeeTable({ employees }) {
                   </TableCell>
 
                   <TableCell>
-                    {emp.extraDays}
+                    {emp.weeklyOff}
                   </TableCell>
 
                   <TableCell>
                     {emp.totalAttendance}
                   </TableCell>
 
-                  <TableCell className="text-green-600 font-medium">
-                    {formatCurrency(emp.extraPay)}
+                  <TableCell>
+                    {emp.allowedLeaves}
                   </TableCell>
 
-                  <TableCell className="text-green-600">
+                  <TableCell>
+                    {emp.leavesTaken}
+                  </TableCell>
+
+                  <TableCell className="text-green-600 font-semibold">
+                    {formatCurrency(emp.bonus)}
+                  </TableCell>
+
+                  <TableCell className="text-green-600 font-semibold">
+                    {formatCurrency(emp.weeklyOffPay)}
+                  </TableCell>
+
+                  <TableCell className="text-green-600 font-semibold">
                     {formatCurrency(emp.teaCost)}
                   </TableCell>
 
-                  <TableCell className="text-green-600">
-                    {formatCurrency(emp.boxCost)}
+                  <TableCell className="text-green-600 font-semibold">
+                    {formatCurrency(emp.lunchBoxCost)}
                   </TableCell>
 
-                  <TableCell className="text-red-600">
-                    {formatCurrency(emp.leaveDeduction)}
-                  </TableCell>
-
-                  <TableCell className="text-blue-600">
+                  <TableCell className="text-blue-600 font-semibold">
                     {formatCurrency(emp.commission)}
+                  </TableCell>
+
+                  <TableCell className="text-red-600 font-semibold">
+                    {formatCurrency(emp.leaveDeduction)}
                   </TableCell>
 
                   <TableCell className="font-semibold">
                     {formatCurrency(emp.grossSalary)}
-                  </TableCell>
-
-                  <TableCell className="text-red-600 font-semibold">
-                    {formatCurrency(emp.deductions)}
                   </TableCell>
 
                   <TableCell className="text-right font-bold text-emerald-700">

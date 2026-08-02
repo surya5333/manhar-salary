@@ -50,8 +50,9 @@ function App() {
         />
 
         <EmployeeTable
-          employees={processedEmployees}
-        />
+  employees={processedEmployees}
+  settings={settings}
+/>
 
       </main>
     </div>

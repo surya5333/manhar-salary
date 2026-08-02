@@ -3,9 +3,14 @@ export function calculateSummary(processedEmployees) {
     employees: processedEmployees.length,
 
     grossSalary: processedEmployees.reduce(
-  (sum, emp) => sum + (emp.grossSalary || 0),
-  0
-),
+      (sum, emp) => sum + (emp.grossSalary || 0),
+      0
+    ),
+
+    bonus: processedEmployees.reduce(
+      (sum, emp) => sum + (emp.bonus || 0),
+      0
+    ),
 
     commission: processedEmployees.reduce(
       (sum, emp) => sum + (emp.commission || 0),
@@ -17,8 +22,13 @@ export function calculateSummary(processedEmployees) {
       0
     ),
 
-    boxCost: processedEmployees.reduce(
-      (sum, emp) => sum + (emp.boxCost || 0),
+    lunchBoxCost: processedEmployees.reduce(
+      (sum, emp) => sum + (emp.lunchBoxCost || 0),
+      0
+    ),
+
+    additions: processedEmployees.reduce(
+      (sum, emp) => sum + (emp.additions || 0),
       0
     ),
 

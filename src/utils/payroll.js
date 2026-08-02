@@ -6,12 +6,12 @@ export function calculateDailySalary(monthlySalary) {
   return round(monthlySalary / 30);
 }
 
-// Extra Days × Daily Salary
-export function calculateExtraPay(
+// Weekly Off Pay
+export function calculateWeeklyOffPay(
   dailySalary,
-  extraDays
+  weeklyOff
 ) {
-  return round(dailySalary * extraDays);
+  return round(dailySalary * weeklyOff);
 }
 
 // Tea Cost
@@ -22,28 +22,69 @@ export function calculateTeaCost(
   return round(totalAttendance * teaRate);
 }
 
-// Box Cost
-export function calculateBoxCost(
+// Lunch Box Cost
+export function calculateLunchBoxCost(
   totalAttendance,
   boxRate
 ) {
   return round(totalAttendance * boxRate);
 }
 
-// Leave Deduction
-export function calculateLeaveDeduction(
+// Leave Bonus & Deduction
+export function calculateLeaveAdjustment(
   dailySalary,
   leavesTaken,
   allowedLeaves
 ) {
-  const extraLeaves = Math.max(
-    0,
-    leavesTaken - allowedLeaves
-  );
+  // Bonus
+  if (leavesTaken < allowedLeaves) {
+    const remainingLeaves =
+      allowedLeaves - leavesTaken;
+
+    return {
+      bonus: round(remainingLeaves * dailySalary),
+      leaveDeduction: 0,
+      extraLeaves: 0,
+      remainingLeaves,
+    };
+  }
+
+  // Equal
+  if (leavesTaken === allowedLeaves) {
+    return {
+      bonus: 0,
+      leaveDeduction: 0,
+      extraLeaves: 0,
+      remainingLeaves: 0,
+    };
+  }
+
+  // Penalty Rule
+  // If employee takes 6 or more leaves,
+  // deduct ALL leave days.
+  if (leavesTaken >= 6) {
+    return {
+      bonus: 0,
+      leaveDeduction: round(
+        leavesTaken * dailySalary
+      ),
+      extraLeaves: leavesTaken,
+      remainingLeaves: 0,
+    };
+  }
+
+  // Normal deduction
+  // Deduct only extra leaves
+  const extraLeaves =
+    leavesTaken - allowedLeaves;
 
   return {
+    bonus: 0,
+    leaveDeduction: round(
+      extraLeaves * dailySalary
+    ),
     extraLeaves,
-    leaveDeduction: round(extraLeaves * dailySalary),
+    remainingLeaves: 0,
   };
 }
 
@@ -52,52 +93,64 @@ export function calculatePayroll(
   employee,
   settings
 ) {
-  const dailySalary = calculateDailySalary(
-    employee.monthlySalary
-  );
+  const dailySalary =
+    calculateDailySalary(employee.monthlySalary);
 
-  // Attendance is used only for Tea & Box
   const totalAttendance =
     employee.workingDays +
-    employee.extraDays;
+    employee.weeklyOff;
 
-  const extraPay = calculateExtraPay(
-    dailySalary,
-    employee.extraDays
-  );
-
-  const teaCost = calculateTeaCost(
-    totalAttendance,
-    settings.teaCost
-  );
-
-  const boxCost = calculateBoxCost(
-    totalAttendance,
-    settings.boxCost
-  );
-
-  const { extraLeaves, leaveDeduction } =
-    calculateLeaveDeduction(
+  const weeklyOffPay =
+    calculateWeeklyOffPay(
       dailySalary,
-      employee.leavesTaken,
-      settings.allowedLeaves
+      employee.weeklyOff
     );
 
-  // Gross Salary starts with Monthly Salary
+  const teaCost =
+    calculateTeaCost(
+      totalAttendance,
+      settings.teaCost
+    );
+
+  const lunchBoxCost =
+    employee.lunchBoxAllowed
+      ? calculateLunchBoxCost(
+          totalAttendance,
+          settings.boxCost
+        )
+      : 0;
+
+  const {
+    bonus,
+    leaveDeduction,
+    extraLeaves,
+    remainingLeaves,
+  } = calculateLeaveAdjustment(
+    dailySalary,
+    employee.leavesTaken,
+    settings.allowedLeaves
+  );
+
   const grossSalary =
     employee.monthlySalary +
-    extraPay +
+    weeklyOffPay +
+    bonus +
     employee.commission;
 
-  // Total Deductions
+  // Tea & Lunch Box are additions
+  const additions =
+    teaCost +
+    lunchBoxCost;
+
+  // Only Leave Deduction is a deduction
   const deductions =
     leaveDeduction;
 
   // Final Salary
   const finalSalary =
-    grossSalary+
-    teaCost +
-    boxCost - deductions;
+    grossSalary +
+    additions -
+    deductions;
 
   return {
     ...employee,
@@ -106,19 +159,27 @@ export function calculatePayroll(
 
     totalAttendance,
 
+    allowedLeaves: settings.allowedLeaves,
+
+    weeklyOffPay,
+
+    bonus,
+
     extraLeaves,
 
-    extraPay,
+    remainingLeaves,
 
     teaCost,
 
-    boxCost,
+    lunchBoxCost,
+
+    additions,
 
     leaveDeduction,
 
-    grossSalary,
-
     deductions,
+
+    grossSalary,
 
     finalSalary: round(finalSalary),
   };

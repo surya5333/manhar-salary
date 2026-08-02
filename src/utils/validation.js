@@ -3,9 +3,10 @@ const REQUIRED_COLUMNS = [
   "Employee Name",
   "Monthly Salary",
   "Working Days",
-  "Extra Days",
+  "Weekly Off",
   "Leaves Taken",
   "Commission",
+  "Lunch Box Allowed",
 ];
 
 export function validateExcel(data) {
@@ -55,10 +56,10 @@ export function validateExcel(data) {
       };
     }
 
-    if (Number(row["Extra Days"]) < 0) {
+    if (Number(row["Weekly Off"]) < 0) {
       return {
         valid: false,
-        message: `Invalid Extra Days at Row ${i + 2}`,
+        message: `Invalid Weekly Off at Row ${i + 2}`,
       };
     }
 
@@ -73,6 +74,19 @@ export function validateExcel(data) {
       return {
         valid: false,
         message: `Invalid Commission at Row ${i + 2}`,
+      };
+    }
+
+    const lunchBox = String(
+      row["Lunch Box Allowed"] || ""
+    )
+      .trim()
+      .toUpperCase();
+
+    if (lunchBox !== "YES" && lunchBox !== "NO") {
+      return {
+        valid: false,
+        message: `Lunch Box Allowed must be YES or NO at Row ${i + 2}`,
       };
     }
   }

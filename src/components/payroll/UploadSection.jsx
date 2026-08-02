@@ -1,7 +1,8 @@
 import { useRef, useState } from "react";
+
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { validateExcel } from "@/utils/validateExcel";
+
 import {
   Upload,
   Download,
@@ -11,8 +12,12 @@ import {
 
 import { downloadTemplate } from "@/data/template";
 import { readExcel } from "@/utils/excel";
+import { validateExcel } from "@/utils/validateExcel";
 
-export default function UploadSection({ setEmployees, settings }) {
+export default function UploadSection({
+  setEmployees,
+  settings,
+}) {
   const fileInputRef = useRef(null);
 
   const [fileName, setFileName] = useState("");
@@ -27,23 +32,49 @@ export default function UploadSection({ setEmployees, settings }) {
     if (!file) return;
 
     try {
+      const data = await readExcel(file);
+
+      const validation = validateExcel(data);
+
+      if (!validation.valid) {
+        alert(validation.message);
+        e.target.value = "";
+        return;
+      }
+
       setFileName(file.name);
 
-      const data = await readExcel(file);
-      const validation=validateExcel(data);
-      if(!validation.valid){
-        alert(validation.message);
-        return;
-        }
-
       const employees = data.map((row, index) => ({
-        id: row["Employee ID"] || `EMP${String(index + 1).padStart(3, "0")}`,
+        id: row["Employee ID"] || `EMP${index + 1}`,
+
         name: row["Employee Name"] || "",
-        monthlySalary: Number(row["Monthly Salary"] || 0),
-        workingDays: Number(row["Working Days"] || 0),
-        extraDays: Number(row["Extra Days"] || 0),
-        leavesTaken: Number(row["Leaves Taken"] || 0),
-        commission: Number(row["Commission"] || 0),
+
+        monthlySalary: Number(
+          row["Monthly Salary"] || 0
+        ),
+
+        workingDays: Number(
+          row["Working Days"] || 0
+        ),
+
+        weeklyOff: Number(
+          row["Weekly Off"] || 0
+        ),
+
+        leavesTaken: Number(
+          row["Leaves Taken"] || 0
+        ),
+
+        commission: Number(
+          row["Commission"] || 0
+        ),
+
+        lunchBoxAllowed:
+          String(
+            row["Lunch Box Allowed"] || "YES"
+          )
+            .trim()
+            .toUpperCase() === "YES",
       }));
 
       setEmployees(employees);
@@ -92,7 +123,7 @@ export default function UploadSection({ setEmployees, settings }) {
         </h3>
 
         <p className="text-gray-500 mt-2">
-          Supported: .xlsx .xls .csv
+          Supported: .xlsx, .xls
         </p>
 
         <Button
@@ -107,7 +138,7 @@ export default function UploadSection({ setEmployees, settings }) {
           ref={fileInputRef}
           hidden
           type="file"
-          accept=".xlsx,.xls,.csv"
+          accept=".xlsx,.xls"
           onChange={handleFileChange}
         />
 

@@ -2,11 +2,14 @@ import { Card } from "@/components/ui/card";
 import {
   Users,
   Wallet,
+  Gift,
   BadgeIndianRupee,
   Coffee,
   UtensilsCrossed,
   CircleDollarSign,
 } from "lucide-react";
+
+import { formatCurrency } from "@/utils/format";
 
 export default function SummaryCards({ summary }) {
   const cards = [
@@ -17,33 +20,38 @@ export default function SummaryCards({ summary }) {
     },
     {
       title: "Gross Salary",
-      value: `₹${summary.grossSalary}`,
+      value: formatCurrency(summary.grossSalary),
       icon: Wallet,
     },
     {
+      title: "Bonus",
+      value: formatCurrency(summary.bonus),
+      icon: Gift,
+    },
+    {
       title: "Commission",
-      value: `₹${summary.commission}`,
+      value: formatCurrency(summary.commission),
       icon: BadgeIndianRupee,
     },
     {
-      title: "Tea Cost",
-      value: `₹${summary.teaCost}`,
+      title: "Tea",
+      value: formatCurrency(summary.teaCost),
       icon: Coffee,
     },
     {
-      title: "Box Cost",
-      value: `₹${summary.boxCost}`,
+      title: "Lunch Box",
+      value: formatCurrency(summary.lunchBoxCost),
       icon: UtensilsCrossed,
     },
     {
       title: "Net Payroll",
-      value: `₹${summary.netPayroll}`,
+      value: formatCurrency(summary.netPayroll),
       icon: CircleDollarSign,
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-4">
       {cards.map((card) => {
         const Icon = card.icon;
 

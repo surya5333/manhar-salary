@@ -13,9 +13,10 @@ export const downloadTemplate = (settings) => {
       "Employee Name": "",
       "Monthly Salary": "",
       "Working Days": maximumWorkingDays,
-      "Extra Days": 0,
+      "Weekly Off": 0,
       "Leaves Taken": 0,
       "Commission": 0,
+      "Lunch Box Allowed": "YES",
     },
   ];
 
@@ -26,9 +27,10 @@ export const downloadTemplate = (settings) => {
     { wch: 25 },
     { wch: 18 },
     { wch: 15 },
-    { wch: 12 },
     { wch: 15 },
     { wch: 15 },
+    { wch: 15 },
+    { wch: 20 },
   ];
 
   const workbook = XLSX.utils.book_new();
@@ -39,8 +41,23 @@ export const downloadTemplate = (settings) => {
     "Employees"
   );
 
-  XLSX.writeFile(
-    workbook,
-    `MANHAR-Payroll-Template-${settings.year}-${settings.month + 1}.xlsx`
-  );
+  const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+XLSX.writeFile(
+  workbook,
+  `MANHAR-Payroll-Template-${months[settings.month]}-${settings.year}.xlsx`
+);
 };
