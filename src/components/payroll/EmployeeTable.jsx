@@ -13,7 +13,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { Download, Search } from "lucide-react";
+import { Download } from "lucide-react";
 
 import { exportPayroll } from "@/utils/exportExcel";
 import { formatCurrency } from "@/utils/format";
@@ -50,30 +50,18 @@ export default function EmployeeTable({
           </p>
         </div>
 
-        <div className="flex gap-3">
-
-          <div className="relative">
-
-            
-
-            
-
-          </div>
-
-          <Button
-            onClick={() =>
-              exportPayroll(
-                filteredEmployees,
-                settings
-              )
-            }
-            disabled={!filteredEmployees.length}
-          >
-            <Download className="mr-2 h-4 w-4" />
-            Export Excel
-          </Button>
-
-        </div>
+        <Button
+          onClick={() =>
+            exportPayroll(
+              filteredEmployees,
+              settings
+            )
+          }
+          disabled={!filteredEmployees.length}
+        >
+          <Download className="mr-2 h-4 w-4" />
+          Export Excel
+        </Button>
 
       </div>
 
@@ -95,13 +83,24 @@ export default function EmployeeTable({
               <TableHead>Casual Leave</TableHead>
               <TableHead>Casual Leave Pay</TableHead>
               <TableHead>Leaves Taken</TableHead>
+
               <TableHead>Bonus</TableHead>
               <TableHead>Weekly Off Pay</TableHead>
-              <TableHead>Tea</TableHead>
-              <TableHead>Lunch Box</TableHead>
+
               <TableHead>Commission</TableHead>
+              <TableHead>Wholesale</TableHead>
+
+                <TableHead>Gross Salary</TableHead>
+
+                <TableHead>Tea</TableHead>
+              <TableHead>Lunch Box</TableHead>
+
               <TableHead>Leave Deduction</TableHead>
-              <TableHead>Gross Salary</TableHead>
+              <TableHead>Monthly Advance</TableHead>
+              <TableHead>Cloth Taken</TableHead>
+              <TableHead>Additional Advance</TableHead>
+              <TableHead>Month Less</TableHead>
+
               <TableHead className="text-right">
                 Final Salary
               </TableHead>
@@ -117,7 +116,7 @@ export default function EmployeeTable({
               <TableRow>
 
                 <TableCell
-                  colSpan={18}
+                  colSpan={23}
                   className="text-center py-10"
                 >
                   No employee uploaded.
@@ -177,24 +176,44 @@ export default function EmployeeTable({
                     {formatCurrency(emp.weeklyOffPay)}
                   </TableCell>
 
-                  <TableCell className="text-green-600 font-semibold">
-                    {formatCurrency(emp.teaCost)}
-                  </TableCell>
-
-                  <TableCell className="text-green-600 font-semibold">
-                    {formatCurrency(emp.lunchBoxCost)}
-                  </TableCell>
-
                   <TableCell className="text-blue-600 font-semibold">
-                    {formatCurrency(emp.commission)}
-                  </TableCell>
+  {formatCurrency(emp.commission)}
+</TableCell>
+
+<TableCell className="text-blue-600 font-semibold">
+  {formatCurrency(emp.wholesale)}
+</TableCell>
+
+<TableCell className="font-semibold">
+  {formatCurrency(emp.grossSalary)}
+</TableCell>
+
+<TableCell className="text-green-600 font-semibold">
+  {formatCurrency(emp.teaCost)}
+</TableCell>
+
+<TableCell className="text-green-600 font-semibold">
+  {formatCurrency(emp.lunchBoxCost)}
+</TableCell>
 
                   <TableCell className="text-red-600 font-semibold">
                     {formatCurrency(emp.leaveDeduction)}
                   </TableCell>
 
-                  <TableCell className="font-semibold">
-                    {formatCurrency(emp.grossSalary)}
+                  <TableCell className="text-red-600 font-semibold">
+                    {formatCurrency(emp.monthlyAdvance)}
+                  </TableCell>
+
+                  <TableCell className="text-red-600 font-semibold">
+                    {formatCurrency(emp.clothTaken)}
+                  </TableCell>
+
+                  <TableCell className="text-red-600 font-semibold">
+                    {formatCurrency(emp.additionalAdvance)}
+                  </TableCell>
+
+                  <TableCell className="text-red-600 font-semibold">
+                    {formatCurrency(emp.monthLess)}
                   </TableCell>
 
                   <TableCell className="text-right font-bold text-emerald-700">

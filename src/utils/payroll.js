@@ -161,16 +161,21 @@ export function calculatePayroll(
     casualLeavePay +
     weeklyOffPay +
     bonus +
-    employee.commission;
+    employee.commission +
+    employee.wholesale;
 
   // Additions
   const additions =
     teaCost +
     lunchBoxCost;
 
-  // Deductions
+  // Total Deductions
   const deductions =
-    leaveDeduction;
+    leaveDeduction +
+    employee.monthlyAdvance +
+    employee.clothTaken +
+    employee.additionalAdvance +
+    employee.monthLess;
 
   // Final Salary
   const finalSalary =

@@ -22,6 +22,11 @@ export function calculateSummary(processedEmployees) {
       0
     ),
 
+    wholesale: processedEmployees.reduce(
+      (sum, emp) => sum + (emp.wholesale || 0),
+      0
+    ),
+
     teaCost: processedEmployees.reduce(
       (sum, emp) => sum + (emp.teaCost || 0),
       0
@@ -39,6 +44,31 @@ export function calculateSummary(processedEmployees) {
 
     leaveDeduction: processedEmployees.reduce(
       (sum, emp) => sum + (emp.leaveDeduction || 0),
+      0
+    ),
+
+    monthlyAdvance: processedEmployees.reduce(
+      (sum, emp) => sum + (emp.monthlyAdvance || 0),
+      0
+    ),
+
+    clothTaken: processedEmployees.reduce(
+      (sum, emp) => sum + (emp.clothTaken || 0),
+      0
+    ),
+
+    additionalAdvance: processedEmployees.reduce(
+      (sum, emp) => sum + (emp.additionalAdvance || 0),
+      0
+    ),
+
+    monthLess: processedEmployees.reduce(
+      (sum, emp) => sum + (emp.monthLess || 0),
+      0
+    ),
+
+    deductions: processedEmployees.reduce(
+      (sum, emp) => sum + (emp.deductions || 0),
       0
     ),
 

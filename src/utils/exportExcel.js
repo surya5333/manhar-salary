@@ -43,6 +43,12 @@ export function exportPayroll(employees, settings) {
 
     "Weekly Off Pay": emp.weeklyOffPay,
 
+    Commission: emp.commission,
+
+    Wholesale: emp.wholesale,
+
+    "Gross Salary": emp.grossSalary,
+
     "Tea Amount": emp.teaCost,
 
     "Lunch Box Allowed": emp.lunchBoxAllowed
@@ -53,11 +59,17 @@ export function exportPayroll(employees, settings) {
 
     "Total Additions": emp.additions,
 
-    Commission: emp.commission,
-
-    "Gross Salary": emp.grossSalary,
-
     "Leave Deduction": emp.leaveDeduction,
+
+    "Monthly Advance": emp.monthlyAdvance,
+
+    "Cloth Taken": emp.clothTaken,
+
+    "Additional Advance": emp.additionalAdvance,
+
+    "Month Less": emp.monthLess,
+
+    "Total Deductions": emp.deductions,
 
     "Final Salary": emp.finalSalary,
   }));
@@ -71,7 +83,7 @@ export function exportPayroll(employees, settings) {
     { wch: 15 }, // Daily Salary
     { wch: 15 }, // Working Days
     { wch: 15 }, // Weekly Off
-    { wch: 18 }, // Attendance
+    { wch: 18 }, // Total Attendance
     { wch: 15 }, // Casual Leave
     { wch: 18 }, // Casual Leave Pay
     { wch: 15 }, // Leaves Taken
@@ -79,13 +91,19 @@ export function exportPayroll(employees, settings) {
     { wch: 15 }, // Extra Leaves
     { wch: 15 }, // Bonus
     { wch: 18 }, // Weekly Off Pay
-    { wch: 15 }, // Tea
+    { wch: 15 }, // Commission
+    { wch: 15 }, // Wholesale
+    { wch: 18 }, // Gross Salary
+    { wch: 15 }, // Tea Amount
     { wch: 20 }, // Lunch Box Allowed
     { wch: 18 }, // Lunch Box Amount
     { wch: 18 }, // Total Additions
-    { wch: 15 }, // Commission
-    { wch: 18 }, // Gross Salary
     { wch: 18 }, // Leave Deduction
+    { wch: 18 }, // Monthly Advance
+    { wch: 18 }, // Cloth Taken
+    { wch: 20 }, // Additional Advance
+    { wch: 18 }, // Month Less
+    { wch: 18 }, // Total Deductions
     { wch: 18 }, // Final Salary
   ];
 

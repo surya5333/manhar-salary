@@ -17,20 +17,34 @@ export const downloadTemplate = (settings) => {
       "Leaves Taken": 0,
       "Commission": 0,
       "Lunch Box Allowed": "YES",
+
+      // New Fields
+      "Monthly Advance": 0,
+      "Cloth Taken": 0,
+      "Additional Advance": 0,
+      "Month Less": 0,
+      Wholesale: 0,
     },
   ];
 
   const worksheet = XLSX.utils.json_to_sheet(data);
 
   worksheet["!cols"] = [
-    { wch: 15 },
-    { wch: 25 },
-    { wch: 18 },
-    { wch: 15 },
-    { wch: 15 },
-    { wch: 15 },
-    { wch: 15 },
-    { wch: 20 },
+    { wch: 15 }, // Employee ID
+    { wch: 25 }, // Employee Name
+    { wch: 18 }, // Monthly Salary
+    { wch: 15 }, // Working Days
+    { wch: 15 }, // Weekly Off
+    { wch: 15 }, // Leaves Taken
+    { wch: 15 }, // Commission
+    { wch: 20 }, // Lunch Box Allowed
+
+    // New Fields
+    { wch: 18 }, // Monthly Advance
+    { wch: 18 }, // Cloth Taken
+    { wch: 20 }, // Additional Advance
+    { wch: 18 }, // Month Less
+    { wch: 15 }, // Wholesale
   ];
 
   const workbook = XLSX.utils.book_new();
@@ -42,22 +56,22 @@ export const downloadTemplate = (settings) => {
   );
 
   const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
-XLSX.writeFile(
-  workbook,
-  `MANHAR-Payroll-Template-${months[settings.month]}-${settings.year}.xlsx`
-);
+  XLSX.writeFile(
+    workbook,
+    `MANHAR-Payroll-Template-${months[settings.month]}-${settings.year}.xlsx`
+  );
 };

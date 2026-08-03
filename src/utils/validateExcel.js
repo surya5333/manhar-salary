@@ -7,6 +7,13 @@ const REQUIRED_COLUMNS = [
   "Leaves Taken",
   "Commission",
   "Lunch Box Allowed",
+
+  // New Columns
+  "Monthly Advance",
+  "Cloth Taken",
+  "Additional Advance",
+  "Month Less",
+  "Wholesale",
 ];
 
 export function validateExcel(data) {
@@ -109,6 +116,61 @@ export function validateExcel(data) {
       return {
         valid: false,
         message: `Lunch Box Allowed must be YES or NO at Row ${i + 2}`,
+      };
+    }
+
+    // Monthly Advance
+    if (
+      isNaN(Number(row["Monthly Advance"])) ||
+      Number(row["Monthly Advance"]) < 0
+    ) {
+      return {
+        valid: false,
+        message: `Invalid Monthly Advance at Row ${i + 2}`,
+      };
+    }
+
+    // Cloth Taken
+    if (
+      isNaN(Number(row["Cloth Taken"])) ||
+      Number(row["Cloth Taken"]) < 0
+    ) {
+      return {
+        valid: false,
+        message: `Invalid Cloth Taken at Row ${i + 2}`,
+      };
+    }
+
+    // Additional Advance
+    if (
+      isNaN(Number(row["Additional Advance"])) ||
+      Number(row["Additional Advance"]) < 0
+    ) {
+      return {
+        valid: false,
+        message: `Invalid Additional Advance at Row ${i + 2}`,
+      };
+    }
+
+    // Month Less
+    if (
+      isNaN(Number(row["Month Less"])) ||
+      Number(row["Month Less"]) < 0
+    ) {
+      return {
+        valid: false,
+        message: `Invalid Month Less at Row ${i + 2}`,
+      };
+    }
+
+    // Wholesale
+    if (
+      isNaN(Number(row["Wholesale"])) ||
+      Number(row["Wholesale"]) < 0
+    ) {
+      return {
+        valid: false,
+        message: `Invalid Wholesale at Row ${i + 2}`,
       };
     }
   }

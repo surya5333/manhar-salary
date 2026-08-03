@@ -8,6 +8,7 @@ import {
   Coffee,
   UtensilsCrossed,
   CircleDollarSign,
+  TrendingUp,
 } from "lucide-react";
 
 import { formatCurrency } from "@/utils/format";
@@ -40,6 +41,11 @@ export default function SummaryCards({ summary }) {
       icon: BadgeIndianRupee,
     },
     {
+      title: "Wholesale",
+      value: formatCurrency(summary.wholesale),
+      icon: TrendingUp,
+    },
+    {
       title: "Tea",
       value: formatCurrency(summary.teaCost),
       icon: Coffee,
@@ -57,7 +63,7 @@ export default function SummaryCards({ summary }) {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
       {cards.map((card) => {
         const Icon = card.icon;
 

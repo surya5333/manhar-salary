@@ -75,6 +75,27 @@ export default function UploadSection({
           )
             .trim()
             .toUpperCase() === "YES",
+
+        // New Fields
+        monthlyAdvance: Number(
+          row["Monthly Advance"] || 0
+        ),
+
+        clothTaken: Number(
+          row["Cloth Taken"] || 0
+        ),
+
+        additionalAdvance: Number(
+          row["Additional Advance"] || 0
+        ),
+
+        monthLess: Number(
+          row["Month Less"] || 0
+        ),
+
+        wholesale: Number(
+          row["Wholesale"] || 0
+        ),
       }));
 
       setEmployees(employees);
