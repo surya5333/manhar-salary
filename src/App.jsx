@@ -33,7 +33,7 @@ function App() {
     <div className="min-h-screen bg-slate-100">
       <Header />
 
-      <main className="max-w-7xl mx-auto p-6 space-y-6">
+      <main className="max-w-screen-2xl mx-auto p-6 space-y-6">
 
         <PayrollSettings
           settings={settings}
@@ -50,9 +50,9 @@ function App() {
         />
 
         <EmployeeTable
-  employees={processedEmployees}
-  settings={settings}
-/>
+          employees={processedEmployees}
+          settings={settings}
+        />
 
       </main>
     </div>

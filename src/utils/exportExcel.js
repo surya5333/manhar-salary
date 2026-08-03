@@ -67,7 +67,12 @@ export function exportPayroll(employees, settings) {
 
     "Additional Advance": emp.additionalAdvance,
 
+    "Outstanding Loan": emp.outstandingLoan,
+
     "Month Less": emp.monthLess,
+
+    "Remaining Outstanding":
+      emp.remainingOutstanding,
 
     "Total Deductions": emp.deductions,
 
@@ -102,7 +107,9 @@ export function exportPayroll(employees, settings) {
     { wch: 18 }, // Monthly Advance
     { wch: 18 }, // Cloth Taken
     { wch: 20 }, // Additional Advance
+    { wch: 20 }, // Outstanding Loan
     { wch: 18 }, // Month Less
+    { wch: 24 }, // Remaining Outstanding
     { wch: 18 }, // Total Deductions
     { wch: 18 }, // Final Salary
   ];

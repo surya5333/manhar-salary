@@ -70,7 +70,7 @@ export function calculateLeaveAdjustment(
     };
   }
 
-  // Leaves less than allowed (e.g. 1 leave)
+  // Leaves less than allowed
   if (leavesTaken < allowedLeaves) {
     return {
       bonus: 0,
@@ -81,7 +81,7 @@ export function calculateLeaveAdjustment(
     };
   }
 
-  // Normal deduction (3,4,5 leaves)
+  // Normal deduction
   const extraLeaves =
     leavesTaken - allowedLeaves;
 
@@ -144,14 +144,13 @@ export function calculatePayroll(
     settings.allowedLeaves
   );
 
-  // Casual Leave Rule
+  // Casual Leave
   const casualLeaves = Math.max(
     settings.allowedLeaves -
       employee.leavesTaken,
     0
   );
 
-  // Casual Leave Pay
   const casualLeavePay =
     round(casualLeaves * dailySalary);
 
@@ -169,12 +168,22 @@ export function calculatePayroll(
     teaCost +
     lunchBoxCost;
 
-  // Total Deductions
-  const deductions =
-    leaveDeduction +
+  // Outstanding Loan
+  const outstandingLoan =
     employee.monthlyAdvance +
     employee.clothTaken +
-    employee.additionalAdvance +
+    employee.additionalAdvance;
+
+  // Remaining Outstanding
+  const remainingOutstanding = Math.max(
+    outstandingLoan -
+      employee.monthLess,
+    0
+  );
+
+  // ONLY Month Less is deducted
+  const deductions =
+    leaveDeduction +
     employee.monthLess;
 
   // Final Salary
@@ -211,6 +220,10 @@ export function calculatePayroll(
     lunchBoxCost,
 
     additions,
+
+    outstandingLoan,
+
+    remainingOutstanding,
 
     leaveDeduction,
 

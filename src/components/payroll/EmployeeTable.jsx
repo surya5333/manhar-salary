@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+
 
 import {
   Table,
@@ -100,6 +100,8 @@ export default function EmployeeTable({
               <TableHead>Cloth Taken</TableHead>
               <TableHead>Additional Advance</TableHead>
               <TableHead>Month Less</TableHead>
+              <TableHead>Outstanding Loan</TableHead>
+              <TableHead>Remaining Outstanding</TableHead>
 
               <TableHead className="text-right">
                 Final Salary
@@ -116,7 +118,7 @@ export default function EmployeeTable({
               <TableRow>
 
                 <TableCell
-                  colSpan={23}
+                  colSpan={25}
                   className="text-center py-10"
                 >
                   No employee uploaded.
@@ -200,21 +202,30 @@ export default function EmployeeTable({
                     {formatCurrency(emp.leaveDeduction)}
                   </TableCell>
 
-                  <TableCell className="text-red-600 font-semibold">
+                  <TableCell className="text-orange-600 font-semibold">
                     {formatCurrency(emp.monthlyAdvance)}
                   </TableCell>
 
-                  <TableCell className="text-red-600 font-semibold">
+                  <TableCell className="text-orange-600 font-semibold">
                     {formatCurrency(emp.clothTaken)}
                   </TableCell>
 
-                  <TableCell className="text-red-600 font-semibold">
+                  <TableCell className="text-orange-600 font-semibold">
                     {formatCurrency(emp.additionalAdvance)}
                   </TableCell>
 
                   <TableCell className="text-red-600 font-semibold">
                     {formatCurrency(emp.monthLess)}
                   </TableCell>
+                  <TableCell className="text-orange-600 font-semibold">
+  {formatCurrency(emp.outstandingLoan)}
+</TableCell>
+
+<TableCell className="text-orange-600 font-semibold">
+  {formatCurrency(emp.remainingOutstanding)}
+</TableCell>
+
+
 
                   <TableCell className="text-right font-bold text-emerald-700">
                     {formatCurrency(emp.finalSalary)}
