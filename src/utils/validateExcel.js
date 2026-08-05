@@ -9,7 +9,7 @@ const REQUIRED_COLUMNS = [
   "Lunch Box Allowed",
 
   // New Columns
-  "Monthly Advance",
+  "Salary Advance",
   "Cloth Taken",
   "Additional Advance",
   "Month Less",
@@ -119,14 +119,14 @@ export function validateExcel(data) {
       };
     }
 
-    // Monthly Advance
+    // Salary Advance
     if (
-      isNaN(Number(row["Monthly Advance"])) ||
-      Number(row["Monthly Advance"]) < 0
+      isNaN(Number(row["Salary Advance"])) ||
+      Number(row["Salary Advance"]) < 0
     ) {
       return {
         valid: false,
-        message: `Invalid Monthly Advance at Row ${i + 2}`,
+        message: `Invalid Salary Advance at Row ${i + 2}`,
       };
     }
 

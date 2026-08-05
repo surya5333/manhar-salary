@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState,useRef,useEffect } from "react";
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -23,17 +23,22 @@ export default function EmployeeTable({
   settings,
 }) {
   const [search, setSearch] = useState("");
+  
+  const tableWrapperRef = useRef(null);
 
+  
   const filteredEmployees = useMemo(() => {
     const keyword = search.toLowerCase();
 
     return employees.filter((emp) => {
       return (
         emp.name.toLowerCase().includes(keyword) ||
-        emp.id.toLowerCase().includes(keyword)
+        String(emp.id).toLowerCase().includes(keyword)
       );
     });
   }, [employees, search]);
+  
+  
 
   return (
     <Card className="p-6 shadow-sm">
@@ -48,6 +53,14 @@ export default function EmployeeTable({
           <p className="text-gray-500">
             Showing {filteredEmployees.length} employee(s)
           </p>
+
+          <input
+            type="text"
+            placeholder="Search by name or ID..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="mt-2 px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
         </div>
 
         <Button
@@ -64,17 +77,20 @@ export default function EmployeeTable({
         </Button>
 
       </div>
-
-      <div className="overflow-auto rounded-lg border">
-
+    
+      <div
+  ref={tableWrapperRef}
+  className=" rounded-lg border"
+>
+        
         <Table>
 
           <TableHeader>
 
             <TableRow>
 
-              <TableHead>ID</TableHead>
-              <TableHead>Name</TableHead>
+              <TableHead className="sticky left-0 z-20 w-[70px] min-w-[70px] bg-white">ID</TableHead>
+              <TableHead className="sticky left-[70px] min-w-[220px] bg-white">Name</TableHead>
               <TableHead>Monthly Salary</TableHead>
               <TableHead>Daily Salary</TableHead>
               <TableHead>Working Days</TableHead>
@@ -96,11 +112,12 @@ export default function EmployeeTable({
               <TableHead>Lunch Box</TableHead>
 
               <TableHead>Leave Deduction</TableHead>
-              <TableHead>Monthly Advance</TableHead>
+              <TableHead>Salary Advance</TableHead>
               <TableHead>Cloth Taken</TableHead>
               <TableHead>Additional Advance</TableHead>
+              <TableHead>Previous Outstanding</TableHead>
               <TableHead>Month Less</TableHead>
-              <TableHead>Outstanding Loan</TableHead>
+              
               <TableHead>Remaining Outstanding</TableHead>
 
               <TableHead className="text-right">
@@ -121,7 +138,7 @@ export default function EmployeeTable({
                   colSpan={25}
                   className="text-center py-10"
                 >
-                  No employee uploaded.
+                  No employees found.
                 </TableCell>
 
               </TableRow>
@@ -132,9 +149,9 @@ export default function EmployeeTable({
 
                 <TableRow key={emp.id}>
 
-                  <TableCell>{emp.id}</TableCell>
+                  <TableCell className="sticky left-0 z-20 w-[70px] min-w-[70px] bg-white">{emp.id}</TableCell>
 
-                  <TableCell className="font-medium">
+                 <TableCell className="sticky left-[70px] min-w-[220px] bg-white font-medium">
                     {emp.name}
                   </TableCell>
 
@@ -213,36 +230,28 @@ export default function EmployeeTable({
                   <TableCell className="text-orange-600 font-semibold">
                     {formatCurrency(emp.additionalAdvance)}
                   </TableCell>
+                  <TableCell className="text-orange-600 font-semibold">
+                    {formatCurrency(emp.previousOutstanding || 0)}
+                  </TableCell>
 
                   <TableCell className="text-red-600 font-semibold">
                     {formatCurrency(emp.monthLess)}
                   </TableCell>
+
                   <TableCell className="text-orange-600 font-semibold">
-  {formatCurrency(emp.outstandingLoan)}
-</TableCell>
-
-<TableCell className="text-orange-600 font-semibold">
-  {formatCurrency(emp.remainingOutstanding)}
-</TableCell>
-
-
+                    {formatCurrency(emp.remainingOutstanding)}
+                  </TableCell>
 
                   <TableCell className="text-right font-bold text-emerald-700">
                     {formatCurrency(emp.finalSalary)}
                   </TableCell>
-
                 </TableRow>
-
               ))
-
             )}
-
           </TableBody>
-
         </Table>
-
-      </div>
-
-    </Card>
-  );
+        </div>
+      
+  </Card>
+);
 }

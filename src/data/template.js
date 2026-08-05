@@ -19,7 +19,7 @@ export const downloadTemplate = (settings) => {
       "Lunch Box Allowed": "YES",
 
       // New Fields
-      "Monthly Advance": 0,
+      "Salary Advance": 0,
       "Cloth Taken": 0,
       "Additional Advance": 0,
       "Month Less": 0,

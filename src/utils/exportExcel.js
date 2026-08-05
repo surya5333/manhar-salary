@@ -61,11 +61,14 @@ export function exportPayroll(employees, settings) {
 
     "Leave Deduction": emp.leaveDeduction,
 
-    "Monthly Advance": emp.monthlyAdvance,
+    "Salary Advance": emp.monthlyAdvance,
 
     "Cloth Taken": emp.clothTaken,
 
     "Additional Advance": emp.additionalAdvance,
+
+    "Previous Outstanding":
+      emp.previousOutstanding,
 
     "Outstanding Loan": emp.outstandingLoan,
 
@@ -107,6 +110,7 @@ export function exportPayroll(employees, settings) {
     { wch: 18 }, // Monthly Advance
     { wch: 18 }, // Cloth Taken
     { wch: 20 }, // Additional Advance
+    { wch: 22 }, // Previous Outstanding
     { wch: 20 }, // Outstanding Loan
     { wch: 18 }, // Month Less
     { wch: 24 }, // Remaining Outstanding

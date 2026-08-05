@@ -67,6 +67,16 @@ export function calculateSummary(processedEmployees) {
       0
     ),
 
+    outstandingLoan: processedEmployees.reduce(
+      (sum, emp) => sum + (emp.outstandingLoan || 0),
+      0
+    ),
+
+    remainingOutstanding: processedEmployees.reduce(
+      (sum, emp) => sum + (emp.remainingOutstanding || 0),
+      0
+    ),
+
     deductions: processedEmployees.reduce(
       (sum, emp) => sum + (emp.deductions || 0),
       0

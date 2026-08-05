@@ -81,7 +81,7 @@ export function calculateLeaveAdjustment(
     };
   }
 
-  // Normal deduction
+  // Extra Leave Deduction
   const extraLeaves =
     leavesTaken - allowedLeaves;
 
@@ -151,6 +151,7 @@ export function calculatePayroll(
     0
   );
 
+  // Casual Leave Pay
   const casualLeavePay =
     round(casualLeaves * dailySalary);
 
@@ -168,22 +169,28 @@ export function calculatePayroll(
     teaCost +
     lunchBoxCost;
 
-  // Outstanding Loan
+  // Future Database Support
+  const previousOutstanding =
+    employee.previousOutstanding || 0;
+
+  // Total Outstanding Loan
   const outstandingLoan =
-    employee.monthlyAdvance +
-    employee.clothTaken +
+    previousOutstanding +
     employee.additionalAdvance;
 
-  // Remaining Outstanding
-  const remainingOutstanding = Math.max(
-    outstandingLoan -
-      employee.monthLess,
-    0
-  );
+  // Remaining Outstanding Loan
+  const remainingOutstanding =
+    Math.max(
+      outstandingLoan -
+        employee.monthLess,
+      0
+    );
 
-  // ONLY Month Less is deducted
+  // Salary Deductions
   const deductions =
     leaveDeduction +
+    employee.monthlyAdvance +
+    employee.clothTaken +
     employee.monthLess;
 
   // Final Salary
@@ -220,6 +227,8 @@ export function calculatePayroll(
     lunchBoxCost,
 
     additions,
+
+    previousOutstanding,
 
     outstandingLoan,
 

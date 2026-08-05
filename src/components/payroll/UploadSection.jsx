@@ -78,7 +78,7 @@ export default function UploadSection({
 
         // New Fields
         monthlyAdvance: Number(
-          row["Monthly Advance"] || 0
+          row["Salary Advance"] || 0
         ),
 
         clothTaken: Number(
